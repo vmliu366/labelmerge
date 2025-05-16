@@ -88,6 +88,9 @@ parse_args:
   --overlay_drops:
     help: Space separated integer labels from the overlay image to drop from the output.
     nargs: '*'
+  --output_desc:
+    help: Description entity for output labelmaps 
+    nargs: '?'
 
 # Workflow specific config
 

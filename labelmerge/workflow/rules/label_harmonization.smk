@@ -66,14 +66,16 @@ rule merge_labels:
     output:
         merged_map=bids(
             root=str(Path(config["output_dir"]) / "combined"),
+            datatype="anat",
             suffix="dseg.nii.gz",
-            desc="combined",
+            desc=config.get("output_desc"),
             **base_inputs["labelmap"].wildcards,
         ),
         merged_metadata=bids(
             root=str(Path(config["output_dir"]) / "combined"),
+            datatype="anat",
             suffix="dseg.tsv",
-            desc="combined",
+            desc=config.get("output_desc"),
             **base_inputs["labelmap"].wildcards,
         ),
     params:
@@ -89,6 +91,9 @@ rule merge_labels:
         overlay_drops=f"--overlay_drops {' '.join(config['overlay_drops'])}"
         if config.get("overlay_drops")
         else "",
+        output_desc=f"--output_desc {' '.join(config['output_desc'])}"
+        if config.get("output_desc")
+        else "combined",
     resources:
         script=str(Path(workflow.basedir) / "scripts" / "labelmerge.py"),
     shell:
